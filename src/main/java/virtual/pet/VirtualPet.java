@@ -6,16 +6,18 @@ public class VirtualPet {
 	private int thirstLevel;
 	private int boredomLevel;
 	private int tirednessLevel;
+	private int wasteLevel;
 
 	public VirtualPet() {
-		this(20, 20, 50, 10);
+		this(20, 20, 50, 10, 0);
 	}
 
-	public VirtualPet(int hunger, int thirst, int boredom, int tiredness) {
+	public VirtualPet(int hunger, int thirst, int boredom, int tiredness, int waste) {
 		hungerLevel = hunger;
 		thirstLevel = thirst;
 		boredomLevel = boredom;
 		tirednessLevel = tiredness;
+		wasteLevel = waste;
 	}
 
 	public int getHungerLevel() {
@@ -32,6 +34,10 @@ public class VirtualPet {
 
 	public int getTirednessLevel() {
 		return tirednessLevel;
+	}
+
+	public int getWasteLevel() {
+		return wasteLevel;
 	}
 
 }

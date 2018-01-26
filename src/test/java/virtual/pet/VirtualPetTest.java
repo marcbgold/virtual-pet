@@ -34,8 +34,15 @@ public class VirtualPetTest {
 	}
 
 	@Test
+	public void shouldHaveStartingWasteLevel() {
+		VirtualPet underTest = new VirtualPet();
+		int wasteLevel = underTest.getWasteLevel();
+		Assert.assertEquals(0, wasteLevel);
+	}
+
+	@Test
 	public void shouldConstructNewPetUsingConstructorParameters() {
-		VirtualPet underTest = new VirtualPet(60, 60, 60, 60);
+		VirtualPet underTest = new VirtualPet(60, 60, 60, 60, 60);
 		int hungerLevel = underTest.getHungerLevel();
 		int thirstLevel = underTest.getThirstLevel();
 		int boredomLevel = underTest.getBoredomLevel();
