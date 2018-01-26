@@ -2,6 +2,7 @@ package virtual.pet;
 
 public class VirtualPet {
 
+	private String name;
 	private int hungerLevel;
 	private int thirstLevel;
 	private int boredomLevel;
@@ -9,15 +10,20 @@ public class VirtualPet {
 	private int wasteLevel;
 
 	public VirtualPet() {
-		this(20, 20, 50, 10, 0);
+		this("Widget", 20, 20, 50, 10, 0);
 	}
 
-	public VirtualPet(int hunger, int thirst, int boredom, int tiredness, int waste) {
+	public VirtualPet(String name, int hunger, int thirst, int boredom, int tiredness, int waste) {
+		this.name = name;
 		hungerLevel = hunger;
 		thirstLevel = thirst;
 		boredomLevel = boredom;
 		tirednessLevel = tiredness;
 		wasteLevel = waste;
+	}
+
+	public String getName() {
+		return name;
 	}
 
 	public int getHungerLevel() {
