@@ -9,6 +9,10 @@ public class VirtualPet {
 	private int tirednessLevel;
 	private int wasteLevel;
 
+	private int foodBowlLevel;
+	private int waterBowlLevel;
+	private int litterBoxLevel;
+
 	public VirtualPet() {
 		this("Widget", 20, 20, 50, 10, 0);
 	}
@@ -20,6 +24,10 @@ public class VirtualPet {
 		boredomLevel = boredom;
 		tirednessLevel = tiredness;
 		wasteLevel = waste;
+
+		foodBowlLevel = 0;
+		waterBowlLevel = 0;
+		litterBoxLevel = 0;
 	}
 
 	public String getName() {
@@ -46,34 +54,110 @@ public class VirtualPet {
 		return wasteLevel;
 	}
 
+	public int getFoodBowlLevel() {
+		return foodBowlLevel;
+	}
+
+	public int getWaterBowlLevel() {
+		return waterBowlLevel;
+	}
+
+	public int getLitterBoxLevel() {
+		return litterBoxLevel;
+	}
+
 	public void eat() {
-		hungerLevel -= 20;
+		hungerLevel -= 40;
+
 		thirstLevel += 10;
+		if (thirstLevel > 100)
+			thirstLevel = 100;
+
 		boredomLevel -= 5;
+
 		tirednessLevel += 10;
+		if (tirednessLevel > 100)
+			tirednessLevel = 100;
+
 		wasteLevel += 20;
+		if (wasteLevel > 100)
+			wasteLevel = 100;
+
+		foodBowlLevel--;
 	}
 
 	public void drink() {
 		thirstLevel -= 40;
 
+		wasteLevel += 20;
+		if (wasteLevel > 100)
+			wasteLevel = 100;
 	}
 
 	public void play() {
 		hungerLevel += 10;
+		if (hungerLevel > 100)
+			hungerLevel = 100;
+
 		thirstLevel += 10;
+		if (thirstLevel > 100)
+			thirstLevel = 100;
+
 		boredomLevel -= 40;
+
 		tirednessLevel += 30;
+		if (tirednessLevel > 100)
+			tirednessLevel = 100;
 	}
 
 	public void sleep() {
 		hungerLevel += 20;
+		if (hungerLevel > 100)
+			hungerLevel = 100;
+
 		thirstLevel += 20;
-		tirednessLevel -= 50;
+		if (thirstLevel > 100)
+			thirstLevel = 100;
+
+		tirednessLevel -= tirednessLevel;
 	}
 
 	public void useBathroom() {
-		wasteLevel -= 40;
+		wasteLevel -= wasteLevel;
+	}
+
+	public void putOutFood() {
+		foodBowlLevel = 2;
+	}
+
+	public void putOutWater() {
+		waterBowlLevel = 2;
+	}
+
+	public void scoopLitterBox() {
+		litterBoxLevel = 0;
+	}
+
+	public void tick() {
+		hungerLevel += 10;
+		if (hungerLevel > 100)
+			hungerLevel = 100;
+
+		thirstLevel += 10;
+		if (thirstLevel > 100)
+			thirstLevel = 100;
+
+		boredomLevel += 10;
+		if (boredomLevel > 100)
+			boredomLevel = 100;
+
+		tirednessLevel += 10;
+		if (tirednessLevel > 100)
+			tirednessLevel = 100;
+
+		wasteLevel += 10;
+		if (wasteLevel > 100)
+			wasteLevel = 100;
 	}
 
 }

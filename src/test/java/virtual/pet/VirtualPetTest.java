@@ -6,48 +6,6 @@ import org.junit.Test;
 public class VirtualPetTest {
 
 	@Test
-	public void shouldHaveDefaultName() {
-		VirtualPet underTest = new VirtualPet();
-		String name = underTest.getName();
-		Assert.assertEquals("Widget", name);
-	}
-
-	@Test
-	public void shouldHaveDefaultHungerLevel() {
-		VirtualPet underTest = new VirtualPet();
-		int hungerLevel = underTest.getHungerLevel();
-		Assert.assertEquals(20, hungerLevel);
-	}
-
-	@Test
-	public void shouldHaveDefaultThirstLevel() {
-		VirtualPet underTest = new VirtualPet();
-		int thirstLevel = underTest.getThirstLevel();
-		Assert.assertEquals(20, thirstLevel);
-	}
-
-	@Test
-	public void shouldHaveDefaultBoredomLevel() {
-		VirtualPet underTest = new VirtualPet();
-		int boredomLevel = underTest.getBoredomLevel();
-		Assert.assertEquals(50, boredomLevel);
-	}
-
-	@Test
-	public void shouldHaveDefaultTirednessLevel() {
-		VirtualPet underTest = new VirtualPet();
-		int tirednessLevel = underTest.getTirednessLevel();
-		Assert.assertEquals(10, tirednessLevel);
-	}
-
-	@Test
-	public void shouldHaveDefaultWasteLevel() {
-		VirtualPet underTest = new VirtualPet();
-		int wasteLevel = underTest.getWasteLevel();
-		Assert.assertEquals(0, wasteLevel);
-	}
-
-	@Test
 	public void shouldConstructNewPetUsingConstructorParameters() {
 		VirtualPet underTest = new VirtualPet("Test", 60, 60, 60, 60, 60);
 		String name = underTest.getName();
@@ -55,103 +13,124 @@ public class VirtualPetTest {
 		int thirstLevel = underTest.getThirstLevel();
 		int boredomLevel = underTest.getBoredomLevel();
 		int tirednessLevel = underTest.getTirednessLevel();
+		int foodBowlLevel = underTest.getFoodBowlLevel();
+		int waterBowlLevel = underTest.getWaterBowlLevel();
+		int litterBoxLevel = underTest.getLitterBoxLevel();
+
 		Assert.assertEquals("Test", name);
 		Assert.assertEquals(60, hungerLevel);
 		Assert.assertEquals(60, thirstLevel);
 		Assert.assertEquals(60, boredomLevel);
 		Assert.assertEquals(60, tirednessLevel);
+		Assert.assertEquals(0, foodBowlLevel);
+		Assert.assertEquals(0, waterBowlLevel);
+		Assert.assertEquals(0, litterBoxLevel);
 	}
 
 	@Test
-	public void shouldEatAndReduceHungerLevel() {
+	public void eatShouldRaiseOrLowerLevels() {
 		VirtualPet underTest = new VirtualPet("Test", 60, 60, 60, 60, 60);
+		underTest.putOutFood();
 		underTest.eat();
+
 		int hungerLevel = underTest.getHungerLevel();
-		Assert.assertEquals(40, hungerLevel);
-	}
-
-	@Test
-	public void shouldDrinkAndReduceThirstLevel() {
-		VirtualPet underTest = new VirtualPet("Test", 60, 60, 60, 60, 60);
-		underTest.drink();
 		int thirstLevel = underTest.getThirstLevel();
-		Assert.assertEquals(20, thirstLevel);
-	}
-
-	@Test
-	public void shouldPlayAndReduceBoredomLevel() {
-		VirtualPet underTest = new VirtualPet("Test", 60, 60, 60, 60, 60);
-		underTest.play();
 		int boredomLevel = underTest.getBoredomLevel();
-		Assert.assertEquals(20, boredomLevel);
-	}
-
-	@Test
-	public void shouldSleepAndReduceTirednessLevel() {
-		VirtualPet underTest = new VirtualPet("Test", 60, 60, 60, 60, 60);
-		underTest.sleep();
 		int tirednessLevel = underTest.getTirednessLevel();
-		Assert.assertEquals(10, tirednessLevel);
-	}
-
-	@Test
-	public void shouldUseBathroomAndReduceWasteLevel() {
-		VirtualPet underTest = new VirtualPet("Test", 60, 60, 60, 60, 60);
-		underTest.useBathroom();
 		int wasteLevel = underTest.getWasteLevel();
-		Assert.assertEquals(20, wasteLevel);
-	}
+		int foodBowlLevel = underTest.getFoodBowlLevel();
 
-	@Test
-	public void shouldEatAndAlsoIncreaseThirstLevel() {
-		VirtualPet underTest = new VirtualPet("Test", 60, 60, 60, 60, 60);
-		underTest.eat();
-		int thirstLevel = underTest.getThirstLevel();
+		Assert.assertEquals(20, hungerLevel);
 		Assert.assertEquals(70, thirstLevel);
-	}
-
-	@Test
-	public void shouldEatAndAlsoReduceBoredomLevel() {
-		VirtualPet underTest = new VirtualPet("Test", 60, 60, 60, 60, 60);
-		underTest.eat();
-		int boredomLevel = underTest.getBoredomLevel();
 		Assert.assertEquals(55, boredomLevel);
-	}
-
-	@Test
-	public void shouldEatAndAlsoIncreaseTirednessLevel() {
-		VirtualPet underTest = new VirtualPet("Test", 60, 60, 60, 60, 60);
-		underTest.eat();
-		int tirednessLevel = underTest.getTirednessLevel();
 		Assert.assertEquals(70, tirednessLevel);
+		Assert.assertEquals(80, wasteLevel);
+		Assert.assertEquals(80, wasteLevel);
+		Assert.assertEquals(1, foodBowlLevel);
 	}
 
 	@Test
-	public void shouldEatAndAlsoIncreaseWasteLevel() {
+	public void drinkShouldRaiseOrLowerLevels() {
 		VirtualPet underTest = new VirtualPet("Test", 60, 60, 60, 60, 60);
-		underTest.eat();
+		underTest.putOutWater();
+		underTest.drink();
+
+		int thirstLevel = underTest.getThirstLevel();
 		int wasteLevel = underTest.getWasteLevel();
+
+		Assert.assertEquals(20, thirstLevel);
 		Assert.assertEquals(80, wasteLevel);
 	}
 
 	@Test
-	public void shouldPlayAndAlsoIncreaseHungerLevel() {
+	public void playShouldRaiseOrLowerLevels() {
 		VirtualPet underTest = new VirtualPet("Test", 60, 60, 60, 60, 60);
 		underTest.play();
-		int hungerLevel = underTest.getHungerLevel();
-		Assert.assertEquals(70, hungerLevel);
-	}
 
-	@Test
-	public void shouldPlayAndAlsoIncreaseThirstLevel() {
-		VirtualPet underTest = new VirtualPet("Test", 60, 60, 60, 60, 60);
-		underTest.play();
+		int boredomLevel = underTest.getBoredomLevel();
+		int hungerLevel = underTest.getHungerLevel();
 		int thirstLevel = underTest.getThirstLevel();
+		Assert.assertEquals(20, boredomLevel);
+		Assert.assertEquals(70, hungerLevel);
 		Assert.assertEquals(70, thirstLevel);
 	}
 
 	@Test
-	public void shouldPlayAndAlsoIncreaseTirednessLevel() {
+	public void sleepShouldRaiseOrLowerLevels() {
+		VirtualPet underTest = new VirtualPet("Test", 60, 60, 60, 60, 60);
+		underTest.sleep();
+		int tirednessLevel = underTest.getTirednessLevel();
+		Assert.assertEquals(0, tirednessLevel);
+	}
+
+	@Test
+	public void useBathroomShouldLowerWasteLevel() {
+		VirtualPet underTest = new VirtualPet("Test", 60, 60, 60, 60, 60);
+		underTest.useBathroom();
+		int wasteLevel = underTest.getWasteLevel();
+		Assert.assertEquals(0, wasteLevel);
+	}
+
+	@Test
+	public void putOutFoodShouldRaiseFoodBowlLevelTo2() {
+		VirtualPet underTest = new VirtualPet("Test", 60, 60, 60, 60, 60);
+		underTest.putOutFood();
+		int foodBowlLevel = underTest.getFoodBowlLevel();
+		Assert.assertEquals(2, foodBowlLevel);
+	}
+
+	@Test
+	public void putOutWaterShouldRaiseWaterBowlLevelTo2() {
+		VirtualPet underTest = new VirtualPet("Test", 60, 60, 60, 60, 60);
+		underTest.putOutWater();
+		int waterBowlLevel = underTest.getWaterBowlLevel();
+		Assert.assertEquals(2, waterBowlLevel);
+	}
+
+	@Test
+	public void scoopLitterBoxShouldLowerLitterBoxLevelToZero() {
+		VirtualPet underTest = new VirtualPet("Test", 60, 60, 60, 60, 60);
+		underTest.scoopLitterBox();
+		int litterBoxLevel = underTest.getLitterBoxLevel();
+		Assert.assertEquals(0, litterBoxLevel);
+	}
+
+	@Test
+	public void playShouldAlsoIncreaseHungerLevel() {
+		VirtualPet underTest = new VirtualPet("Test", 60, 60, 60, 60, 60);
+		underTest.play();
+
+	}
+
+	@Test
+	public void playShouldAlsoIncreaseThirstLevel() {
+		VirtualPet underTest = new VirtualPet("Test", 60, 60, 60, 60, 60);
+		underTest.play();
+
+	}
+
+	@Test
+	public void playShouldAlsoIncreaseTirednessLevel() {
 		VirtualPet underTest = new VirtualPet("Test", 60, 60, 60, 60, 60);
 		underTest.play();
 		int tirednessLevel = underTest.getTirednessLevel();
@@ -159,7 +138,7 @@ public class VirtualPetTest {
 	}
 
 	@Test
-	public void shouldSleepAndAlsoIncreaseHungerLevel() {
+	public void sleepShouldAlsoIncreaseHungerLevel() {
 		VirtualPet underTest = new VirtualPet("Test", 60, 60, 60, 60, 60);
 		underTest.sleep();
 		int hungerLevel = underTest.getHungerLevel();
@@ -167,11 +146,85 @@ public class VirtualPetTest {
 	}
 
 	@Test
-	public void shouldSleepAndAlsoIncreaseThirstLevel() {
+	public void sleepShouldAlsoIncreaseThirstLevel() {
 		VirtualPet underTest = new VirtualPet("Test", 60, 60, 60, 60, 60);
 		underTest.sleep();
 		int thirstLevel = underTest.getThirstLevel();
 		Assert.assertEquals(80, thirstLevel);
+	}
+
+	@Test
+	public void eatShouldNotRaiseThristTirednessOrWasteAbove100() {
+		VirtualPet underTest = new VirtualPet("Test", 99, 99, 99, 99, 99);
+		underTest.eat();
+		int thirstLevel = underTest.getThirstLevel();
+		int tirednessLevel = underTest.getTirednessLevel();
+		int wasteLevel = underTest.getWasteLevel();
+		Assert.assertEquals(100, thirstLevel);
+		Assert.assertEquals(100, tirednessLevel);
+		Assert.assertEquals(100, wasteLevel);
+	}
+
+	@Test
+	public void drinkShouldNotRaiseWasteAbove100() {
+		VirtualPet underTest = new VirtualPet("Test", 99, 99, 99, 99, 99);
+		underTest.drink();
+		int wasteLevel = underTest.getWasteLevel();
+		Assert.assertEquals(100, wasteLevel);
+	}
+
+	@Test
+	public void playShouldNotRaiseHungerThirstOrTirednessAbove100() {
+		VirtualPet underTest = new VirtualPet("Test", 99, 99, 99, 99, 99);
+		underTest.play();
+		int hungerLevel = underTest.getHungerLevel();
+		int thirstLevel = underTest.getThirstLevel();
+		int tirednessLevel = underTest.getTirednessLevel();
+		Assert.assertEquals(100, hungerLevel);
+		Assert.assertEquals(100, thirstLevel);
+		Assert.assertEquals(100, tirednessLevel);
+	}
+
+	@Test
+	public void sleepShouldNotRaiseHungerOrThirstAbove100() {
+		VirtualPet underTest = new VirtualPet("Test", 99, 99, 99, 99, 99);
+		underTest.sleep();
+		int hungerLevel = underTest.getHungerLevel();
+		int thirstLevel = underTest.getThirstLevel();
+		Assert.assertEquals(100, hungerLevel);
+		Assert.assertEquals(100, thirstLevel);
+	}
+
+	@Test
+	public void tickShouldRaiseAllValuesBy10() {
+		VirtualPet underTest = new VirtualPet("Test", 60, 60, 60, 60, 60);
+		underTest.tick();
+		int hungerLevel = underTest.getHungerLevel();
+		int thirstLevel = underTest.getThirstLevel();
+		int boredomLevel = underTest.getBoredomLevel();
+		int tirednessLevel = underTest.getTirednessLevel();
+		int wasteLevel = underTest.getWasteLevel();
+		Assert.assertEquals(70, hungerLevel);
+		Assert.assertEquals(70, thirstLevel);
+		Assert.assertEquals(70, boredomLevel);
+		Assert.assertEquals(70, tirednessLevel);
+		Assert.assertEquals(70, wasteLevel);
+	}
+
+	@Test
+	public void tickShouldNotRaiseValuesAbove100() {
+		VirtualPet underTest = new VirtualPet("Test", 99, 99, 99, 99, 99);
+		underTest.tick();
+		int hungerLevel = underTest.getHungerLevel();
+		int thirstLevel = underTest.getThirstLevel();
+		int boredomLevel = underTest.getBoredomLevel();
+		int tirednessLevel = underTest.getTirednessLevel();
+		int wasteLevel = underTest.getWasteLevel();
+		Assert.assertEquals(100, hungerLevel);
+		Assert.assertEquals(100, thirstLevel);
+		Assert.assertEquals(100, boredomLevel);
+		Assert.assertEquals(100, tirednessLevel);
+		Assert.assertEquals(100, wasteLevel);
 	}
 
 }
