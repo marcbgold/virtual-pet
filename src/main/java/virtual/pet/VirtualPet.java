@@ -8,6 +8,7 @@ public class VirtualPet {
 	private int boredomLevel;
 	private int tirednessLevel;
 	private int wasteLevel;
+	private boolean isAsleep;
 
 	private int foodBowlLevel;
 	private int waterBowlLevel;
@@ -17,6 +18,10 @@ public class VirtualPet {
 		this("Widget", 20, 20, 50, 10, 0);
 	}
 
+	public VirtualPet(String name) {
+		this(name, 20, 20, 50, 10, 0);
+	}
+
 	public VirtualPet(String name, int hunger, int thirst, int boredom, int tiredness, int waste) {
 		this.name = name;
 		hungerLevel = hunger;
@@ -24,6 +29,7 @@ public class VirtualPet {
 		boredomLevel = boredom;
 		tirednessLevel = tiredness;
 		wasteLevel = waste;
+		isAsleep = false;
 
 		foodBowlLevel = 0;
 		waterBowlLevel = 0;
@@ -54,6 +60,10 @@ public class VirtualPet {
 		return wasteLevel;
 	}
 
+	public boolean getSleepStatus() {
+		return isAsleep;
+	}
+
 	public int getFoodBowlLevel() {
 		return foodBowlLevel;
 	}
@@ -68,58 +78,38 @@ public class VirtualPet {
 
 	public void eat() {
 		hungerLevel -= 40;
-
 		thirstLevel += 10;
-		if (thirstLevel > 100)
-			thirstLevel = 100;
-
 		boredomLevel -= 5;
-
 		tirednessLevel += 10;
-		if (tirednessLevel > 100)
-			tirednessLevel = 100;
-
 		wasteLevel += 20;
-		if (wasteLevel > 100)
-			wasteLevel = 100;
-
 		foodBowlLevel--;
+
+		checkFor100();
 	}
 
 	public void drink() {
 		thirstLevel -= 40;
-
 		wasteLevel += 20;
-		if (wasteLevel > 100)
-			wasteLevel = 100;
+
+		checkFor100();
 	}
 
 	public void play() {
 		hungerLevel += 10;
-		if (hungerLevel > 100)
-			hungerLevel = 100;
-
 		thirstLevel += 10;
-		if (thirstLevel > 100)
-			thirstLevel = 100;
-
 		boredomLevel -= 40;
-
 		tirednessLevel += 30;
-		if (tirednessLevel > 100)
-			tirednessLevel = 100;
+
+		checkFor100();
 	}
 
 	public void sleep() {
 		hungerLevel += 20;
-		if (hungerLevel > 100)
-			hungerLevel = 100;
-
 		thirstLevel += 20;
-		if (thirstLevel > 100)
-			thirstLevel = 100;
-
 		tirednessLevel -= tirednessLevel;
+		isAsleep = true;
+
+		checkFor100();
 	}
 
 	public void useBathroom() {
@@ -140,22 +130,27 @@ public class VirtualPet {
 
 	public void tick() {
 		hungerLevel += 10;
+		thirstLevel += 10;
+		boredomLevel += 10;
+		tirednessLevel += 10;
+		wasteLevel += 10;
+
+		checkFor100();
+	}
+
+	public void checkFor100() {
 		if (hungerLevel > 100)
 			hungerLevel = 100;
 
-		thirstLevel += 10;
 		if (thirstLevel > 100)
 			thirstLevel = 100;
 
-		boredomLevel += 10;
 		if (boredomLevel > 100)
 			boredomLevel = 100;
 
-		tirednessLevel += 10;
 		if (tirednessLevel > 100)
 			tirednessLevel = 100;
 
-		wasteLevel += 10;
 		if (wasteLevel > 100)
 			wasteLevel = 100;
 	}
