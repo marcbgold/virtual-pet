@@ -46,4 +46,32 @@ public class VirtualPet {
 		return wasteLevel;
 	}
 
+	public void eat() {
+		hungerLevel -= 20;
+		thirstLevel += 10;
+		boredomLevel -= 5;
+		tirednessLevel += 10;
+		wasteLevel += 20;
+	}
+
+	public void drink() {
+		thirstLevel -= 20;
+
+	}
+
+	public void play() {
+		hungerLevel += 10;
+		thirstLevel += 10;
+		boredomLevel -= 20;
+		tirednessLevel += 30;
+	}
+
+	public void sleep() {
+		tirednessLevel -= 20;
+	}
+
+	public void useBathroom() {
+		wasteLevel -= 20;
+	}
+
 }
