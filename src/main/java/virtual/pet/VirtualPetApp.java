@@ -126,9 +126,10 @@ public class VirtualPetApp {
 			case "7":
 				break;
 			default:
-				System.out.println();
-				System.out.println("That's not on the options list.  Try picking a valid selection.");
-				System.out.println();
+				// System.out.println();
+				// System.out.println("That's not on the options list. Try picking a valid
+				// selection.");
+				// System.out.println();
 				continue;
 			}
 
@@ -155,12 +156,17 @@ public class VirtualPetApp {
 					else
 						System.out.print("thirsty from you not giving them water");
 					System.out.println(" that they ran away.");
-					System.out.println("Go study how to raise a pet properly and come back later for a new one.");
+					System.out.println("Go study how to raise a cat properly and come back later for a new one.");
 					System.exit(0);
 				}
 
 				if (myPet.getWasteLevel() == 100) {
-
+					if (myPet.getHasUsedFloorBefore()) {
+						System.out.println("OK, seriously.  Why do you never scoop out the litter box on time?");
+						System.out.println(name + " is so annoyed at you that rather than use the floor again, they just ran away.");
+						System.out.println("Go study how to raise a cat properly and come back later for a new one.");
+						System.exit(0);
+					}
 					myPet.useFloor();
 					System.out.println("You didn't empty the litter box often enough, so " + name + " decided to use the floor, instead.");
 					System.out.println("That's gross, and I really can't blame them.  I wouldn't use the toilet, either, if you never flushed it.");
