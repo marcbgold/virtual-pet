@@ -25,6 +25,18 @@ public class VirtualPetApp {
 		do {
 			System.out.println();
 			System.out.println("Owner's Menu for " + name + " the Cat");
+
+			System.out.println();
+			System.out.println("Hunger: " + myPet.getHungerLevel());
+			System.out.println("Thirst: " + myPet.getThirstLevel());
+			System.out.println("Boredom: " + myPet.getBoredomLevel());
+			System.out.println("Tiredness: " + myPet.getTirednessLevel());
+			System.out.println("Waste: " + myPet.getWasteLevel());
+			System.out.println();
+			System.out.println("Food Bowl Level: " + myPet.getFoodBowlLevel());
+			System.out.println("Water Bowl Level: " + myPet.getWaterBowlLevel());
+			System.out.println("Shitbox Level: " + myPet.getLitterBoxLevel());
+
 			System.out.println();
 			System.out.println("What do you want to do?");
 			System.out.println();
@@ -36,6 +48,7 @@ public class VirtualPetApp {
 			System.out.println("6. Do nothing");
 			System.out.println("7. Quit");
 			choice = input.next().trim();
+			System.out.println();
 
 			switch (choice) {
 			case "1":
@@ -80,8 +93,7 @@ public class VirtualPetApp {
 			case "4":
 				if (myPet.getLitterBoxLevel() > 0) {
 					myPet.scoopLitterBox();
-					System.out.println("You scooped out the litter now.  Now " + name + " will actually be willing to use it.");
-					System.out.println("I can't really blame them.  I wouldn't want to use the toilet if you never flushed it.");
+					System.out.println("You scooped out the litter box.  Gotta exercise proper hygiene.");
 					System.out.println("Press any key and then hit enter to continue.");
 					choice = input.next();
 					break;
@@ -120,11 +132,23 @@ public class VirtualPetApp {
 				continue;
 			}
 
-			if (choice != "7") {
+			if (!choice.equals("7")) {
 				myPet.tick();
-
 				System.out.println();
-				if ((myPet.getHungerLevel() == 100 || myPet.getThirstLevel() == 100) && !myPet.getSleepStatus()) {
+
+				if (myPet.getHungerLevel() >= 50 && myPet.getFoodBowlLevel() > 0) {
+					myPet.eat();
+				}
+
+				if (myPet.getThirstLevel() >= 50 && myPet.getWaterBowlLevel() > 0) {
+					myPet.drink();
+				}
+
+				if (myPet.getWasteLevel() >= 70 && myPet.getLitterBoxLevel() < 3) {
+					myPet.useLitterBox();
+				}
+
+				if (myPet.getHungerLevel() == 100 || myPet.getThirstLevel() == 100) { // && !myPet.getSleepStatus()) {
 					System.out.print("Well, you blew it. " + name + " got so ");
 					if (myPet.getHungerLevel() == 100)
 						System.out.print("hungry from you not feeding them");
@@ -135,15 +159,27 @@ public class VirtualPetApp {
 					System.exit(0);
 				}
 
+				if (myPet.getWasteLevel() == 100) {
+
+					myPet.useFloor();
+					System.out.println("You didn't empty the litter box often enough, so " + name + " decided to use the floor, instead.");
+					System.out.println("That's gross, and I really can't blame them.  I wouldn't use the toilet, either, if you never flushed it.");
+					System.out.println("Go clean up the mess, and then try not to do this again. " + name + " may not put up with it a second time.");
+					System.out.println("Press any key and then hit enter to continue.");
+					choice = input.next();
+
+				}
+
 				if (myPet.getTirednessLevel() == 100) {
-					System.out.print(name + " got so tired from you not putting them to bed that they just fell asleep in the middle of the floor.");
+					myPet.sleep();
+					System.out.println(name + " got so tired from you not putting them to bed that they just fell asleep in the middle of the floor.");
 					System.out.println("If you don't want to accidentally step on them, you should probably put them to bed sooner next time.");
 					System.out.println("Press any key and then hit enter to continue.");
 					choice = input.next();
 				}
 			}
 
-		} while (choice != "7");
+		} while (!choice.equals("7"));
 
 		System.out.println();
 		System.out.println("Bye! Come back later to play with a new cat.");

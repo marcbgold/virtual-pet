@@ -8,11 +8,13 @@ public class VirtualPet {
 	private int boredomLevel;
 	private int tirednessLevel;
 	private int wasteLevel;
-	private boolean isAsleep;
+	// private boolean isAsleep;
 
 	private int foodBowlLevel;
 	private int waterBowlLevel;
 	private int litterBoxLevel;
+
+	boolean hasUsedFloorBefore;
 
 	public VirtualPet() {
 		this("Widget", 20, 20, 50, 10, 0);
@@ -29,11 +31,13 @@ public class VirtualPet {
 		boredomLevel = boredom;
 		tirednessLevel = tiredness;
 		wasteLevel = waste;
-		isAsleep = false;
+		// isAsleep = false;
 
 		foodBowlLevel = 0;
 		waterBowlLevel = 0;
 		litterBoxLevel = 0;
+
+		hasUsedFloorBefore = false;
 	}
 
 	public String getName() {
@@ -60,9 +64,9 @@ public class VirtualPet {
 		return wasteLevel;
 	}
 
-	public boolean getSleepStatus() {
-		return isAsleep;
-	}
+	// public boolean getSleepStatus() {
+	// return isAsleep;
+	// }
 
 	public int getFoodBowlLevel() {
 		return foodBowlLevel;
@@ -84,14 +88,15 @@ public class VirtualPet {
 		wasteLevel += 20;
 		foodBowlLevel--;
 
-		checkFor100();
+		checkForValuesOver100();
 	}
 
 	public void drink() {
 		thirstLevel -= 40;
 		wasteLevel += 20;
+		waterBowlLevel--;
 
-		checkFor100();
+		checkForValuesOver100();
 	}
 
 	public void play() {
@@ -100,20 +105,26 @@ public class VirtualPet {
 		boredomLevel -= 40;
 		tirednessLevel += 30;
 
-		checkFor100();
+		checkForValuesOver100();
 	}
 
 	public void sleep() {
 		hungerLevel += 20;
 		thirstLevel += 20;
 		tirednessLevel -= tirednessLevel;
-		isAsleep = true;
+		// isAsleep = true;
 
-		checkFor100();
+		checkForValuesOver100();
 	}
 
-	public void useBathroom() {
+	public void useLitterBox() {
 		wasteLevel -= wasteLevel;
+		litterBoxLevel++;
+	}
+
+	public void useFloor() {
+		wasteLevel -= wasteLevel;
+		hasUsedFloorBefore = true;
 	}
 
 	public void putOutFood() {
@@ -135,10 +146,10 @@ public class VirtualPet {
 		tirednessLevel += 10;
 		wasteLevel += 10;
 
-		checkFor100();
+		checkForValuesOver100();
 	}
 
-	public void checkFor100() {
+	public void checkForValuesOver100() {
 		if (hungerLevel > 100)
 			hungerLevel = 100;
 
@@ -153,6 +164,10 @@ public class VirtualPet {
 
 		if (wasteLevel > 100)
 			wasteLevel = 100;
+	}
+
+	public boolean getHasUsedFloorBefore() {
+		return hasUsedFloorBefore;
 	}
 
 }
