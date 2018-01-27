@@ -11,6 +11,7 @@ public class VirtualPet {
 	// private boolean isAsleep;
 
 	private int foodBowlLevel;
+	private int foodType;
 	private int waterBowlLevel;
 	private int litterBoxLevel;
 
@@ -72,6 +73,10 @@ public class VirtualPet {
 		return foodBowlLevel;
 	}
 
+	public int getFoodType() {
+		return foodType;
+	}
+
 	public int getWaterBowlLevel() {
 		return waterBowlLevel;
 	}
@@ -127,8 +132,9 @@ public class VirtualPet {
 		hasUsedFloorBefore = true;
 	}
 
-	public void putOutFood() {
+	public void putOutFood(int foodType) {
 		foodBowlLevel = 2;
+		this.foodType = foodType;
 	}
 
 	public void putOutWater() {
@@ -147,6 +153,20 @@ public class VirtualPet {
 		wasteLevel += 10;
 
 		checkForValuesOver100();
+	}
+
+	public void takeCareOfSelf() {
+		if (hungerLevel >= 50 && foodBowlLevel > 0) {
+			eat();
+		}
+
+		if (thirstLevel >= 50 && waterBowlLevel > 0) {
+			drink();
+		}
+
+		if (wasteLevel >= 70 && litterBoxLevel < 3) {
+			useLitterBox();
+		}
 	}
 
 	public void checkForValuesOver100() {

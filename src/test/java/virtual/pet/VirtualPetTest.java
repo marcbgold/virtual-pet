@@ -51,7 +51,7 @@ public class VirtualPetTest {
 	@Test
 	public void eatShouldRaiseOrLowerLevels() {
 		VirtualPet underTest = new VirtualPet("Test", 60, 60, 60, 60, 60);
-		underTest.putOutFood();
+		underTest.putOutFood(1);
 		underTest.eat();
 
 		int hungerLevel = underTest.getHungerLevel();
@@ -142,13 +142,15 @@ public class VirtualPetTest {
 	}
 
 	@Test
-	public void putOutFoodShouldRaiseFoodBowlLevelTo2() {
+	public void putOutFoodShouldRaiseFoodBowlLevelTo2AndAddFoodType() {
 		VirtualPet underTest = new VirtualPet("Test", 60, 60, 60, 60, 60);
-		underTest.putOutFood();
+		underTest.putOutFood(1);
 
 		int foodBowlLevel = underTest.getFoodBowlLevel();
+		int foodType = underTest.getFoodType();
 
 		Assert.assertEquals(2, foodBowlLevel);
+		Assert.assertEquals(1, foodType);
 	}
 
 	@Test

@@ -34,8 +34,19 @@ public class VirtualPetApp {
 			System.out.println("Waste: " + myPet.getWasteLevel());
 			System.out.println();
 			System.out.println("Food Bowl Level: " + myPet.getFoodBowlLevel());
+			if (myPet.getFoodBowlLevel() > 0 && myPet.getFoodType() != 0) {
+				System.out.print("Food Type: ");
+				if (myPet.getFoodType() == 1)
+					System.out.println("Trader Moe's dry food");
+				else if (myPet.getFoodType() == 2)
+					System.out.println("Fancier Feast premium wet food");
+				else if (myPet.getFoodType() == 3)
+					System.out.println("Raw meat");
+				else
+					System.out.println("Table scraps");
+			}
 			System.out.println("Water Bowl Level: " + myPet.getWaterBowlLevel());
-			System.out.println("Shitbox Level: " + myPet.getLitterBoxLevel());
+			System.out.println("Litter Box Level: " + myPet.getLitterBoxLevel());
 
 			System.out.println();
 			System.out.println("What do you want to do?");
@@ -66,7 +77,40 @@ public class VirtualPetApp {
 				}
 			case "2":
 				if (myPet.getFoodBowlLevel() < 2) {
-					myPet.putOutFood();
+					do {
+						System.out.println("What kind of food do you want to put out?");
+						System.out.println("Depending upon the kind of food, " + name + " may or may not eat it.");
+						System.out.println();
+						System.out.println("1. Trader Moe's dry food");
+						System.out.println("2. Fancier Feast premium wet food");
+						System.out.println("3. Raw meat");
+						System.out.println("4. Table scraps");
+						System.out.println("5. Never mind, go back to the main menu");
+						choice = input.next().trim();
+						System.out.println();
+
+						switch (choice) {
+						case "1":
+							break;
+						case "2":
+							break;
+						case "3":
+							break;
+						case "4":
+							break;
+						case "5":
+							break;
+						default:
+							continue;
+						}
+						break;
+					} while (true); // (Integer.parseInt(choice) < 1 || Integer.parseInt(choice) > 5); will crash
+									// program if you don't type a number
+
+					if (choice.equals("5"))
+						continue;
+
+					myPet.putOutFood(Integer.parseInt(choice));
 					System.out.println("You refilled the food bowl.  Now " + name + " will have plenty to eat.");
 					System.out.println("Press any key and then hit enter to continue.");
 					choice = input.next();
@@ -126,28 +170,13 @@ public class VirtualPetApp {
 			case "7":
 				break;
 			default:
-				// System.out.println();
-				// System.out.println("That's not on the options list. Try picking a valid
-				// selection.");
-				// System.out.println();
 				continue;
 			}
 
 			if (!choice.equals("7")) {
-				myPet.tick();
 				System.out.println();
-
-				if (myPet.getHungerLevel() >= 50 && myPet.getFoodBowlLevel() > 0) {
-					myPet.eat();
-				}
-
-				if (myPet.getThirstLevel() >= 50 && myPet.getWaterBowlLevel() > 0) {
-					myPet.drink();
-				}
-
-				if (myPet.getWasteLevel() >= 70 && myPet.getLitterBoxLevel() < 3) {
-					myPet.useLitterBox();
-				}
+				myPet.tick();
+				myPet.takeCareOfSelf();
 
 				if (myPet.getHungerLevel() == 100 || myPet.getThirstLevel() == 100) { // && !myPet.getSleepStatus()) {
 					System.out.print("Well, you blew it. " + name + " got so ");
