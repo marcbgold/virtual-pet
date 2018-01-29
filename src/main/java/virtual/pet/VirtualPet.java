@@ -1,5 +1,7 @@
 package virtual.pet;
 
+import java.util.Random;
+
 public class VirtualPet {
 
 	private String name;
@@ -8,14 +10,21 @@ public class VirtualPet {
 	private int boredomLevel;
 	private int tirednessLevel;
 	private int wasteLevel;
-	// private boolean isAsleep;
 
 	private int foodBowlLevel;
 	private int foodType;
+	int dislikedFoodType;
+	int hatedFoodType;
+	int minFoodType = 1;
+	int maxFoodType = 4;
+	Random randomGen = new Random();
+
 	private int waterBowlLevel;
 	private int litterBoxLevel;
 
 	boolean hasUsedFloorBefore;
+	int hasDestroyedYourStuffCount;
+	int hasSleptOnFloorCount;
 
 	public VirtualPet() {
 		this("Widget", 20, 20, 50, 10, 0);
@@ -25,6 +34,17 @@ public class VirtualPet {
 		this(name, 20, 20, 50, 10, 0);
 	}
 
+	public VirtualPet(int waste, int litterBoxLevel) { // this is only for testing wasteLevel 100 + litterBoxLevel 3 flag trigger
+		wasteLevel = waste;
+		this.litterBoxLevel = litterBoxLevel;
+	}
+
+	public VirtualPet(int hunger, int dislikedFoodType, int hatedFoodType) { // this is only for testing food preference behavior
+		hungerLevel = hunger;
+		this.dislikedFoodType = dislikedFoodType;
+		this.hatedFoodType = hatedFoodType;
+	}
+
 	public VirtualPet(String name, int hunger, int thirst, int boredom, int tiredness, int waste) {
 		this.name = name;
 		hungerLevel = hunger;
@@ -32,11 +52,11 @@ public class VirtualPet {
 		boredomLevel = boredom;
 		tirednessLevel = tiredness;
 		wasteLevel = waste;
-		// isAsleep = false;
 
-		foodBowlLevel = 0;
-		waterBowlLevel = 0;
-		litterBoxLevel = 0;
+		dislikedFoodType = randomGen.nextInt((maxFoodType - minFoodType) + 1) + minFoodType;
+		do {
+			hatedFoodType = randomGen.nextInt((maxFoodType - minFoodType) + 1) + minFoodType;
+		} while (dislikedFoodType == hatedFoodType);
 
 		hasUsedFloorBefore = false;
 	}
@@ -65,10 +85,6 @@ public class VirtualPet {
 		return wasteLevel;
 	}
 
-	// public boolean getSleepStatus() {
-	// return isAsleep;
-	// }
-
 	public int getFoodBowlLevel() {
 		return foodBowlLevel;
 	}
@@ -85,10 +101,29 @@ public class VirtualPet {
 		return litterBoxLevel;
 	}
 
+	public boolean getHasUsedFloorBefore() {
+		return hasUsedFloorBefore;
+	}
+
+	public int getHasSleptOnFloorCount() {
+		return hasSleptOnFloorCount;
+	}
+
+	public int getHasDestroyedYourStuffCount() {
+		return hasDestroyedYourStuffCount;
+	}
+
+	public int getDislikedFoodType() {
+		return dislikedFoodType;
+	}
+
+	public int getHatedFoodType() {
+		return hatedFoodType;
+	}
+
 	public void eat() {
 		hungerLevel -= 40;
 		thirstLevel += 10;
-		boredomLevel -= 5;
 		tirednessLevel += 10;
 		wasteLevel += 20;
 		foodBowlLevel--;
@@ -105,9 +140,12 @@ public class VirtualPet {
 	}
 
 	public void play() {
+		if (boredomLevel == 100)
+			hasDestroyedYourStuffCount++;
+
+		boredomLevel -= 40;
 		hungerLevel += 10;
 		thirstLevel += 10;
-		boredomLevel -= 40;
 		tirednessLevel += 30;
 
 		checkForValuesOver100();
@@ -116,20 +154,20 @@ public class VirtualPet {
 	public void sleep() {
 		hungerLevel += 20;
 		thirstLevel += 20;
+		if (tirednessLevel == 100)
+			hasSleptOnFloorCount++;
 		tirednessLevel -= tirednessLevel;
-		// isAsleep = true;
 
 		checkForValuesOver100();
 	}
 
-	public void useLitterBox() {
+	public void useBathroom() {
 		wasteLevel -= wasteLevel;
-		litterBoxLevel++;
-	}
 
-	public void useFloor() {
-		wasteLevel -= wasteLevel;
-		hasUsedFloorBefore = true;
+		if (litterBoxLevel == 3)
+			hasUsedFloorBefore = true;
+		else
+			litterBoxLevel++;
 	}
 
 	public void putOutFood(int foodType) {
@@ -156,8 +194,11 @@ public class VirtualPet {
 	}
 
 	public void takeCareOfSelf() {
-		if (hungerLevel >= 50 && foodBowlLevel > 0) {
-			eat();
+		if (foodBowlLevel > 0 && foodType != hatedFoodType && hungerLevel >= 50) {
+			if (foodType != dislikedFoodType)
+				eat();
+			else if (hungerLevel >= 70)
+				eat();
 		}
 
 		if (thirstLevel >= 50 && waterBowlLevel > 0) {
@@ -165,7 +206,7 @@ public class VirtualPet {
 		}
 
 		if (wasteLevel >= 70 && litterBoxLevel < 3) {
-			useLitterBox();
+			useBathroom();
 		}
 	}
 
@@ -184,10 +225,6 @@ public class VirtualPet {
 
 		if (wasteLevel > 100)
 			wasteLevel = 100;
-	}
-
-	public boolean getHasUsedFloorBefore() {
-		return hasUsedFloorBefore;
 	}
 
 }
